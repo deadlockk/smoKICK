@@ -1,0 +1,32 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/daily"
+                android:layout_height="100dp"
+                android:layout_weight="30"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="60"
+                android:gravity="left|center"
+                android:layout_height="match_parent"
+                android:id="@+id/textdays"
+                android:textColor="@android:color/black"
+                android:textSize="16dp" />
+
+        </LinearLayout></android.support.v7.widget.CardView>
+
+</FrameLayout>

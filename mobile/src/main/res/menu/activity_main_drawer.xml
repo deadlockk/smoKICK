@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@color/colorAccent"
+            android:tooltipText="Dashboard"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@color/defaultTextColor"
+            android:title="Smoking Calendar" />
+        <item
+            android:id="@+id/nav_community"
+            android:icon="@color/darkGray"
+            android:title="Community" />
+        <item
+            android:id="@+id/nav_vs"
+            android:icon="@color/colorAccent"
+            android:title="Vs mode" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@color/defaultTextColor"
+            android:title="About" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@color/darkGray"
+            android:title="Log out" />
+    </group>
+</menu>

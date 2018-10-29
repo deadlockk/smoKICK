@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.github.pocmo.sensordashboard"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 5
+        versionName "1.1"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildToolsVersion '26.0.2'
+}
+
+dependencies {
+    compile 'com.google.android.support:wearable:1.1.0'
+    compile 'com.google.android.gms:play-services-wearable:11.6.0'
+    compile "com.android.support:appcompat-v7:27.0.1"
+
+
+    compile project(':shared')
+}

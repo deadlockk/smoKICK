@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="10dp"
+    android:background="@color/colorPrimaryDark"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+
+    <ImageButton
+        android:id="@+id/drawer_imageView"
+        android:layout_width="108dp"
+        android:layout_height="108dp"
+        android:layout_gravity="center"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:src="@drawable/splash"
+        android:scaleType="fitXY"
+        android:background="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:id="@+id/drawer_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="Smokick"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <TextView
+        android:id="@+id/drawer_email"
+        android:layout_width="match_parent"
+        android:textStyle="italic"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="JohnDoe@gmail.com" />
+
+</LinearLayout>

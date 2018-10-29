@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "237992221507",
+    "firebase_url": "https://smokick-93d2a.firebaseio.com",
+    "project_id": "smokick-93d2a",
+    "storage_bucket": "smokick-93d2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237992221507:android:029191132afb82d8",
+        "android_client_info": {
+          "package_name": "com.example.user.smokick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237992221507-hcaa6v9nci7i6d6jtcmhqis1dret7viv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.user.smokick",
+            "certificate_hash": "89f39db6a9bf4a426cc8021cf69a39f4ec9cf268"
+          }
+        },
+        {
+          "client_id": "237992221507-vvqtvm4m13kumgfs5v1f8qdve6dfq7se.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.user.smokick",
+            "certificate_hash": "33272afe90b127126141c647eb962395be1167b6"
+          }
+        },
+        {
+          "client_id": "237992221507-4fspolmgjgbprbu0osmaini4fga8040c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTDVIQgpsocwD5DcuqA74S461qOAikDaQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237992221507-4fspolmgjgbprbu0osmaini4fga8040c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237992221507:android:502eaf7c890ab727",
+        "android_client_info": {
+          "package_name": "com.github.pocmo.sensordashboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237992221507-h2f2u8o7rbqmqgv4eusocuquajbicr54.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.pocmo.sensordashboard",
+            "certificate_hash": "89f39db6a9bf4a426cc8021cf69a39f4ec9cf268"
+          }
+        },
+        {
+          "client_id": "237992221507-4fspolmgjgbprbu0osmaini4fga8040c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTDVIQgpsocwD5DcuqA74S461qOAikDaQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237992221507-4fspolmgjgbprbu0osmaini4fga8040c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

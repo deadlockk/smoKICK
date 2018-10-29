@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/defaultTextColor"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="106dp"
+        android:text="Hello, Welcome to smoKICK !"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="24dp" />
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="What's your Name ?"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
+
+    <EditText
+        android:id="@+id/editTextAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Age"
+        android:inputType="number"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Gender:"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="24dp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButtonMale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Male" />
+
+        <RadioButton
+            android:id="@+id/radioButtonFemale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Female" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/editTextprice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ems="10"
+        android:hint="Price of 20 Cigaretes(1 Packet)"
+        android:inputType="number"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
+
+    <EditText
+        android:id="@+id/editTextnumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ems="10"
+        android:hint="Number of Cigaretes Daily"
+        android:inputType="number"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
+
+
+    <!--<Button-->
+    <!--android:id="@+id/buttonSubmit"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:background="@color/colorPrimary"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Submit" />-->
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/buttonSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+
+        android:text="Submit"
+        android:textColor="@android:color/white" />
+
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/frame_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/loginProgress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.design.widget.CoordinatorLayout>
+
+</LinearLayout>
