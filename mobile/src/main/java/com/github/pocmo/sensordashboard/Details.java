@@ -28,7 +28,9 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-
+/*
+ * @author: Sangwon
+ */
 public class Details extends AppCompatActivity {
 
     EditText name, price, number;
