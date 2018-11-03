@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_calendar) {
             intent=new Intent(this,Calendar.class);
         } else if (id == R.id.nav_community) {
-//            intent=new Intent(this,DaysChart.class);
+            intent=new Intent(this,Community.class);
         } else if (id == R.id.nav_vs) {
 //            intent=new Intent(this,HelpUser.class);
         } else if (id == R.id.nav_about) {
@@ -245,7 +245,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             builder.show();
         }
         if(intent!=null){
-            startActivity(intent);}
+            startActivity(intent);
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

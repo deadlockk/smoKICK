@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+/*
+ * @author: Sangwon
+ */
 public class Motivation extends Fragment {
 
     ArrayList<String> quotes;

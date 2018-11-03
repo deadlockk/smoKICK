@@ -8,7 +8,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-
+/*
+ * @author: Sangwon
+ */
 public class Emblem extends Activity {
     ImageButton profile;
     @Override
