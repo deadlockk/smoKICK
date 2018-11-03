@@ -42,6 +42,7 @@
         </service>
 
         <activity android:name=".Calendar"></activity>
+        <activity android:name=".Community"></activity>
     </application>
 
 </manifest>
