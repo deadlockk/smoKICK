@@ -8,8 +8,8 @@ import java.util.Calendar;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
-/*
- * @author: HJA
+/**
+ * @author AHJ
  */
 public class SaturdayDecorator implements DayViewDecorator{
     private final Calendar calendar = Calendar.getInstance();
