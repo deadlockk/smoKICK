@@ -19,6 +19,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.Math.abs;
+
 public class SensorService extends Service implements SensorEventListener {
     private static final String TAG = "SensorService";
 
@@ -52,10 +54,20 @@ public class SensorService extends Service implements SensorEventListener {
     private DeviceClient client;
     private ScheduledExecutorService mScheduler;
 
+    private long currentTime;
+    private double sum=0;
+    private int count=0, totcount=0;
+    private static final int windowSize=1000;
+    //private static final int DOWN=0;
+    private int status;
+    private boolean isStart=false;
+    private long startTime, smokeTime=0;
+    private double[] sample=new double[1000];
+
     @Override
     public void onCreate() {
         super.onCreate();
-
+        currentTime=System.currentTimeMillis();
         client = DeviceClient.getInstance(this);
 
         Notification.Builder builder = new Notification.Builder(this);
@@ -94,8 +106,8 @@ public class SensorService extends Service implements SensorEventListener {
         Sensor gravitySensor = mSensorManager.getDefaultSensor(SENS_GRAVITY);
         Sensor gyroscopeSensor = mSensorManager.getDefaultSensor(SENS_GYROSCOPE);
 //        Sensor gyroscopeUncalibratedSensor = mSensorManager.getDefaultSensor(SENS_GYROSCOPE_UNCALIBRATED);
-//        mHeartrateSensor = mSensorManager.getDefaultSensor(SENS_HEARTRATE);
-//        Sensor heartrateSamsungSensor = mSensorManager.getDefaultSensor(65562);
+        mHeartrateSensor = mSensorManager.getDefaultSensor(SENS_HEARTRATE);
+        Sensor heartrateSamsungSensor = mSensorManager.getDefaultSensor(65562);
 //        Sensor lightSensor = mSensorManager.getDefaultSensor(SENS_LIGHT);
 //        Sensor linearAccelerationSensor = mSensorManager.getDefaultSensor(SENS_LINEAR_ACCELERATION);
 //        Sensor magneticFieldSensor = mSensorManager.getDefaultSensor(SENS_MAGNETIC_FIELD);
@@ -153,38 +165,38 @@ public class SensorService extends Service implements SensorEventListener {
 //                Log.w(TAG, "No Uncalibrated Gyroscope Sensor found");
 //            }
 //
-//            if (mHeartrateSensor != null) {
-//                final int measurementDuration   = 30;   // Seconds
-//                final int measurementBreak      = 15;    // Seconds
-//
-//                mScheduler = Executors.newScheduledThreadPool(1);
-//                mScheduler.scheduleAtFixedRate(
-//                        new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Log.d(TAG, "register Heartrate Sensor");
-//                                mSensorManager.registerListener(SensorService.this, mHeartrateSensor, SensorManager.SENSOR_DELAY_FASTEST);
-//
-//                                try {
-//                                    Thread.sleep(measurementDuration * 1000);
-//                                } catch (InterruptedException e) {
-//                                    Log.e(TAG, "Interrupted while waitting to unregister Heartrate Sensor");
-//                                }
-//
-//                                Log.d(TAG, "unregister Heartrate Sensor");
-//                                mSensorManager.unregisterListener(SensorService.this, mHeartrateSensor);
-//                            }
-//                        }, 3, measurementDuration + measurementBreak, TimeUnit.SECONDS);
-//
-//            } else {
-//                Log.d(TAG, "No Heartrate Sensor found");
-//            }
+            if (mHeartrateSensor != null) {
+                final int measurementDuration   = 30;   // Seconds
+                final int measurementBreak      = 15;    // Seconds
 
-//            if (heartrateSamsungSensor != null) {
-//                mSensorManager.registerListener(this, heartrateSamsungSensor, SensorManager.SENSOR_DELAY_FASTEST);
-//            } else {
-//                Log.d(TAG, "Samsungs Heartrate Sensor not found");
-//            }
+                mScheduler = Executors.newScheduledThreadPool(1);
+                mScheduler.scheduleAtFixedRate(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d(TAG, "register Heartrate Sensor");
+                                mSensorManager.registerListener(SensorService.this, mHeartrateSensor, SensorManager.SENSOR_DELAY_FASTEST);
+
+                                try {
+                                    Thread.sleep(measurementDuration * 1000);
+                                } catch (InterruptedException e) {
+                                    Log.e(TAG, "Interrupted while waitting to unregister Heartrate Sensor");
+                                }
+
+                                Log.d(TAG, "unregister Heartrate Sensor");
+                                mSensorManager.unregisterListener(SensorService.this, mHeartrateSensor);
+                            }
+                        }, 3, measurementDuration + measurementBreak, TimeUnit.SECONDS);
+
+            } else {
+                Log.d(TAG, "No Heartrate Sensor found");
+            }
+
+            if (heartrateSamsungSensor != null) {
+                mSensorManager.registerListener(this, heartrateSamsungSensor, SensorManager.SENSOR_DELAY_FASTEST);
+            } else {
+                Log.d(TAG, "Samsungs Heartrate Sensor not found");
+            }
 
 //            if (lightSensor != null) {
 //                mSensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -266,13 +278,74 @@ public class SensorService extends Service implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         //데이터 전송
-        //client.sendSensorData(event.sensor.getType(), event.accuracy, event.timestamp, event.values);
-       long now=System.currentTimeMillis();
-        Date date = new Date(now);
-        SimpleDateFormat datef = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.getDefault());
+        //   client.sendSensorData(event.sensor.getType(), event.accuracy, event.timestamp, event.values);
+        if(event.sensor.getType()==1) {
+            //   sample[count] = event.values[0];
+            if(event.values[0]>=-10||event.values[0]<=10) //noise filter
+                sum+=event.values[0];
+            count++;
+            Log.d("smoking", "" + event.values[0]);
+        }
+        long now=System.currentTimeMillis();
 
-        String current_time =  datef.format(date) ;
-        Log.d("aaaa"," "+event.sensor.getType()+" "+event.accuracy+" "+current_time+" "+ Arrays.toString(event.values));
+        if(now-currentTime>=windowSize) //windowSize 마다
+        {
+            currentTime=now;
+            Log.d("smoking"," 초당 데이터 개수"+count);
+            Log.d("smoking","초당 평균 값"+sum/count);
+            if(sum/count>=6)  //손이 올라간 상태
+            {
+                if(!isStart) {
+                    Log.d("smoking","손이 올라감 / 측정 시작!");
+                    startTime = currentTime;
+                    isStart = true;
+                }
+                else
+                {
+                    if(currentTime-startTime>=5000) //손이 5초이상 아래로 내려가지 않을 때 초기화
+                    {
+                        Log.d("smoking","손이 올라갔는데 안내려감 / 측정 종료!");
+                        isStart = false;
+                    }
+                }
+            }
+
+            else if(sum/count<=-7) //손이 내려간 상태
+            {
+                if (isStart) //올라가 있었다면
+                {
+                    Long temp=now-startTime;
+
+                    int min=temp.compareTo(2000L);
+                    int max=temp.compareTo(5000L);
+                    //             Log.d("smoking","비교"+min+" "+max);
+                    if (min>=0 && max<=0) //1~5초동안 지속되었다면
+                    {
+                        temp=now-smokeTime;
+                        min=temp.compareTo(3000L);
+                        max=temp.compareTo(30000L);
+                        if (min<=0 || max>=0) //3~30초 사이 안에 이루어지지 않았다면
+                            totcount = 1;
+                        else {
+                            totcount++;
+                            Log.d("smoking","흡입동작 관측!");
+                            if (totcount == 6) //6회 이상 smoking action 감지시
+                            {
+                                Log.d("smoking","흡연 탐지!");
+                                client.sendSensorData(event.sensor.getType(), event.accuracy, now, event.values); //데이터 전송
+                            }
+                        }
+                        smokeTime = now;
+                    }
+                    else
+                        Log.d("smoking","흡연동작은 아님! / 측정 종료!");
+                    isStart = false;
+
+                }
+            }
+            count=0;
+            sum=0.0;
+        }
     }
 
 

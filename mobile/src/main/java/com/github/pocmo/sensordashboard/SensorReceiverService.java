@@ -14,7 +14,10 @@ import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.WearableListenerService;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 import io.realm.Realm;
 
@@ -56,8 +59,8 @@ public class SensorReceiverService extends WearableListenerService {
 
                 if (path.startsWith("/sensors/")) {
                     unpackSensorData(
-                        Integer.parseInt(uri.getLastPathSegment()),
-                        DataMapItem.fromDataItem(dataItem).getDataMap()
+                            Integer.parseInt(uri.getLastPathSegment()),
+                            DataMapItem.fromDataItem(dataItem).getDataMap()
                     );
                 }
             }
@@ -69,8 +72,11 @@ public class SensorReceiverService extends WearableListenerService {
         long timestamp = dataMap.getLong(DataMapKeys.TIMESTAMP);
         float[] values = dataMap.getFloatArray(DataMapKeys.VALUES);
 
-        Log.d(TAG, "Received sensor data " + sensorType + " = " + Arrays.toString(values));
-
+        Date date = new Date(timestamp);
+        SimpleDateFormat datef = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.getDefault());
+        String current_time =  datef.format(date) ;
+        // Log.d(TAG, "Received sensor data " + sensorType + " = " + Arrays.toString(values));
+        Log.d("smoking","흡연 발생 시간"+current_time);
         sensorManager.addSensorData(sensorType, accuracy, timestamp, values);
     }
 }
