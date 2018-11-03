@@ -5,8 +5,8 @@ import android.os.Bundle;
 
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
-/* ajajajajaj
- * @author: HJA
+/**
+ * @author AHJ
  */
 
 public class Calendar extends AppCompatActivity {

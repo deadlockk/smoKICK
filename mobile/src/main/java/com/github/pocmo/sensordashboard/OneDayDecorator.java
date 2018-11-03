@@ -11,8 +11,8 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 
 import java.util.Date;
-/*
- * @author: HJA
+/**
+ * @author AHJ
  */
 public class OneDayDecorator implements DayViewDecorator {
     private CalendarDay date;
