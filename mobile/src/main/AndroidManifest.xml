@@ -14,7 +14,7 @@
         tools:replace="android:icon">
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
 
         <activity android:name=".Splash">
             <intent-filter>
@@ -28,11 +28,7 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".Emblem">
-        </activity>
-
+        <activity android:name=".Emblem"></activity>
 
         <service android:name=".SensorReceiverService">
             <intent-filter>
@@ -42,8 +38,9 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Calendar"></activity>
-        <activity android:name=".Community"></activity>
+        <activity android:name=".Calendar" />
+        <activity android:name=".Community" />
+        <activity android:name=".VSmode"></activity>
     </application>
 
 </manifest>
