@@ -75,6 +75,22 @@
           }
         },
         {
+          "client_id": "237992221507-t1v15rs4psnqvabmil925c65ii70jolg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.pocmo.sensordashboard",
+            "certificate_hash": "33272afe90b127126141c647eb962395be1167b6"
+          }
+        },
+        {
+          "client_id": "237992221507-maal53aeno3227q1d2jnph1q7qm89opi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.pocmo.sensordashboard",
+            "certificate_hash": "2ecc8c461ca31319fca9381991b936b290e12797"
+          }
+        },
+        {
           "client_id": "237992221507-4fspolmgjgbprbu0osmaini4fga8040c.apps.googleusercontent.com",
           "client_type": 3
         }

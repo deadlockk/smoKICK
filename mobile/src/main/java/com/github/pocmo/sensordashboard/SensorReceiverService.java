@@ -1,8 +1,11 @@
 package com.github.pocmo.sensordashboard;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.github.pocmo.sensordashboard.database.DataEntry;
 import com.github.pocmo.sensordashboard.shared.DataMapKeys;
@@ -24,6 +27,7 @@ import io.realm.Realm;
 public class SensorReceiverService extends WearableListenerService {
     private static final String TAG = "MYLOG";
 
+    SharedPreferences sp;
     private RemoteSensorManager sensorManager;
 
     @Override
@@ -72,11 +76,20 @@ public class SensorReceiverService extends WearableListenerService {
         long timestamp = dataMap.getLong(DataMapKeys.TIMESTAMP);
         float[] values = dataMap.getFloatArray(DataMapKeys.VALUES);
 
+        sp=getSharedPreferences("smokingInformation", Activity.MODE_PRIVATE);
+
+        int cnt=sp.getInt("smokingInformation",-1);
+        SharedPreferences.Editor editor=sp.edit();
+        editor.putInt("smokingInformation",cnt+1);
+        editor.commit();
+
+
         Date date = new Date(timestamp);
         SimpleDateFormat datef = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.getDefault());
         String current_time =  datef.format(date) ;
         // Log.d(TAG, "Received sensor data " + sensorType + " = " + Arrays.toString(values));
         Log.d("smoking","흡연 발생 시간"+current_time);
+        Toast.makeText(getApplicationContext(),"흡연 탐지! 일시: "+current_time ,Toast.LENGTH_SHORT).show();
         sensorManager.addSensorData(sensorType, accuracy, timestamp, values);
     }
 }
