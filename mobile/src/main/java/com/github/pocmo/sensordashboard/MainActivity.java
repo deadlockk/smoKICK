@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_community) {
             intent = new Intent(this, Community.class);
         } else if (id == R.id.nav_vs) {
-//            intent=new Intent(this,HelpUser.class);
+            intent=new Intent(this,VSmode.class);
         } else if (id == R.id.nav_about) {
 //            new SweetAlertDialog(this,SweetAlertDialog.CUSTOM_IMAGE_TYPE).setCustomImage(R.drawable.about)
 //                    .setTitleText("Developer").setContentText("Dishant Mahajan\nD3CSEA1\nRoll:1507567\nPhone:9023074222").show();
