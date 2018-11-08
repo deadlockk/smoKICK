@@ -1,5 +1,6 @@
 package com.github.pocmo.sensordashboard;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,6 +31,7 @@ import com.github.pocmo.sensordashboard.events.BusProvider;
 import com.github.pocmo.sensordashboard.events.NewSensorEvent;
 
 import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.otto.Subscribe;
@@ -59,6 +61,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     void init() {
 
+        sharedPreferences = getSharedPreferences("smokingInformation", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Boolean isFirst=sharedPreferences.getBoolean("first",true);
+
+        if(isFirst==null||isFirst) {
+            editor.putInt("smokingInformation", 1);
+            editor.putBoolean("first",false);
+            editor.commit();
+        }
         pDetails = new PDetails();
         money = new Money();
         motivation = new Motivation();
@@ -77,10 +89,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (resultCode == RESULT_OK) {
             if (data.getStringExtra("result").equals("1")) {
                 profile.setImageResource(R.drawable.splash);
-            } else if(data.getStringExtra("result").equals("2")) {
+            } else if (data.getStringExtra("result").equals("2")) {
                 profile.setImageResource(R.drawable.daily);
-            }
-            else if(data.getStringExtra("result").equals("3")) {
+            } else if (data.getStringExtra("result").equals("3")) {
                 profile.setImageResource(R.drawable.money);
             }
 /*            switch(requestCode) {
@@ -115,28 +126,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView email = (TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_email);
         FirebaseUser cur_user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if(cur_user != null) {
+        if (cur_user != null) {
             String userEmail = cur_user.getEmail();
             email.setText(userEmail);
         }
 
         sharedPreferences = getSharedPreferences("smoKICK", Context.MODE_PRIVATE);
         TextView myName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_name);
-        myName.setText( sharedPreferences.getString("Name", "Name"));
+        myName.setText(sharedPreferences.getString("Name", "Name"));
+
 
         profile = (ImageButton) navigationView.getHeaderView(0).findViewById(R.id.drawer_imageView);
 
-        if(cur_user != null) {
-            profile.setOnClickListener(new View.OnClickListener()   {
+        if (cur_user != null) {
+            profile.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)  {
+                public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), Emblem.class);
                     startActivityForResult(intent, 3000);
                 }
             });
 
-       }
-
+        }
 
 
         IntentFilter filter = new IntentFilter();
@@ -163,8 +174,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         BusProvider.getInstance().register(this);
-        List<Sensor> sensors = RemoteSensorManager.getInstance(this).getSensors();
-//        pager.setAdapter(new ScreenSlidePagerAdapter(getSupportFragmentManager(), sensors));
+        remoteSensorManager= RemoteSensorManager.getInstance(this);
+      //  pager.setAdapter(new ScreenSlidePagerAdapter(getSupportFragmentManager(), sensors));
 
 //        if (sensors.size() > 0) {
 //            emptyState.setVisibility(View.GONE);
@@ -172,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            emptyState.setVisibility(View.VISIBLE);
 //        }
 
-//        remoteSensorManager.startMeasurement();
+      remoteSensorManager.startMeasurement();
 
 //        mNavigationViewMenu.clear();
 //        remoteSensorManager.getNodes(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
@@ -201,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         BusProvider.getInstance().unregister(this);
 
         //측정 정지시키는 함수
-       // remoteSensorManager.stopMeasurement();
+        // remoteSensorManager.stopMeasurement();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -209,43 +220,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Intent intent=null;
+        Intent intent = null;
         if (id == R.id.nav_home) {
-            intent=new Intent(this,MainActivity.class);
+            intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             return true;
-        }
-        else if (id == R.id.nav_calendar) {
-            intent=new Intent(this,Calendar.class);
+        } else if (id == R.id.nav_calendar) {
+            intent = new Intent(this, Calendar.class);
         } else if (id == R.id.nav_community) {
             intent=new Intent(this,CommuniActivity.class);
 //            intent=new Intent(this,Community.class);
         } else if (id == R.id.nav_vs) {
-//            intent=new Intent(this,HelpUser.class);
+            intent=new Intent(this,VSmode.class);
         } else if (id == R.id.nav_about) {
 //            new SweetAlertDialog(this,SweetAlertDialog.CUSTOM_IMAGE_TYPE).setCustomImage(R.drawable.about)
 //                    .setTitleText("Developer").setContentText("Dishant Mahajan\nD3CSEA1\nRoll:1507567\nPhone:9023074222").show();
-        }
-        else if(id ==R.id.nav_logout){
+        } else if (id == R.id.nav_logout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("알림");
             builder.setMessage("로그아웃 하시겠습니까?");
-            builder.setNegativeButton("취소",null);
+            builder.setNegativeButton("취소", null);
             builder.setPositiveButton("로그아웃",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             FirebaseAuth.getInstance().signOut();
-                            Intent i=new Intent(MainActivity.this,Details.class);
+                            Intent i = new Intent(MainActivity.this, Details.class);
                             startActivity(i);
                             finish();
                         }
                     });
             builder.show();
         }
-        if(intent!=null){
+        if (intent != null) {
             startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -297,9 +306,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Subscribe
     public void onNewSensorEvent(final NewSensorEvent event) {
-        ((ScreenSlidePagerAdapter) pager.getAdapter()).addNewSensor(event.getSensor());
-        pager.getAdapter().notifyDataSetChanged();
-        emptyState.setVisibility(View.GONE);
-        notifyUSerForNewSensor(event.getSensor());
+     //   ((ScreenSlidePagerAdapter) pager.getAdapter()).addNewSensor(event.getSensor());
+      //  pager.getAdapter().notifyDataSetChanged();
+      //  emptyState.setVisibility(View.GONE);
+      //  notifyUSerForNewSensor(event.getSensor());
     }
 }

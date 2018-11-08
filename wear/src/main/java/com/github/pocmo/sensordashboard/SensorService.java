@@ -293,7 +293,7 @@ public class SensorService extends Service implements SensorEventListener {
             currentTime=now;
             Log.d("smoking"," 초당 데이터 개수"+count);
             Log.d("smoking","초당 평균 값"+sum/count);
-            if(sum/count>=6)  //손이 올라간 상태
+            if(sum/count>=5)  //손이 올라간 상태
             {
                 if(!isStart) {
                     Log.d("smoking","손이 올라감 / 측정 시작!");
@@ -302,7 +302,7 @@ public class SensorService extends Service implements SensorEventListener {
                 }
                 else
                 {
-                    if(currentTime-startTime>=5000) //손이 5초이상 아래로 내려가지 않을 때 초기화
+                    if(currentTime-startTime>=4000) //손이 4초이상 아래로 내려가지 않을 때 초기화
                     {
                         Log.d("smoking","손이 올라갔는데 안내려감 / 측정 종료!");
                         isStart = false;
@@ -316,8 +316,8 @@ public class SensorService extends Service implements SensorEventListener {
                 {
                     Long temp=now-startTime;
 
-                    int min=temp.compareTo(2000L);
-                    int max=temp.compareTo(5000L);
+                    int min=temp.compareTo(1000L);
+                    int max=temp.compareTo(3000L);
                     //             Log.d("smoking","비교"+min+" "+max);
                     if (min>=0 && max<=0) //1~5초동안 지속되었다면
                     {
@@ -329,10 +329,11 @@ public class SensorService extends Service implements SensorEventListener {
                         else {
                             totcount++;
                             Log.d("smoking","흡입동작 관측!");
-                            if (totcount == 6) //6회 이상 smoking action 감지시
+                            if (totcount == 5) //5회 이상 smoking action 감지시
                             {
                                 Log.d("smoking","흡연 탐지!");
                                 client.sendSensorData(event.sensor.getType(), event.accuracy, now, event.values); //데이터 전송
+                                totcount=0;
                             }
                         }
                         smokeTime = now;

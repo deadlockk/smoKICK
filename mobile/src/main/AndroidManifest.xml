@@ -29,11 +29,7 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".Emblem">
-        </activity>
-
+        <activity android:name=".Emblem"></activity>
 
         <service android:name=".SensorReceiverService">
             <intent-filter>
@@ -48,6 +44,7 @@
         <activity android:name=".CommuniActivity" />
         <activity android:name=".NewPostActivity" />
         <activity android:name=".PostDetailActivity" />
+        <activity android:name=".VSmode"></activity>
     </application>
 
 </manifest>

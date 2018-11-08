@@ -1,5 +1,6 @@
 package com.github.pocmo.sensordashboard;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -34,7 +35,9 @@ public class Money extends Fragment {
                 b += c1.getInt(0);
             }
         }
-        textView.setText("Money Saved:    " + saved + "\nMoney Spent:    " + wasted + "\nCigarettes smoked:    " + b);
+        sharedPreferences=getContext().getSharedPreferences("smokingInformation",Activity.MODE_PRIVATE);
+        int temp=sharedPreferences.getInt("smokingInformation",-1);
+        textView.setText("Money Saved:    " + temp + "\nMoney Spent:    " + wasted + "\nCigarettes smoked:    " + b);
         return view;
     }
 
