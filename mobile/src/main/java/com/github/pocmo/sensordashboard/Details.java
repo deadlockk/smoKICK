@@ -28,6 +28,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.*;
+import com.google.firebase.auth.FirebaseUser;
 /*
  * @author: Sangwon
  */
@@ -49,6 +51,10 @@ public class Details extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
     // 파이어베이스 인증 객체 생성
     private FirebaseAuth firebaseAuth;
+
+    // 파이어베이스 실시간 DB
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +140,7 @@ public class Details extends AppCompatActivity {
                 // 구글 로그인 성공
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
+
             } catch (ApiException e) {
 
             }
@@ -150,6 +157,11 @@ public class Details extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            // 실시간 DB에 유저 정보 등록
+                            FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
+                            User user = new User(f_user.getUid(), f_user.getEmail());
+                            databaseReference.child("user").push().setValue(user);
+
                             // 로그인 성공
                             Toast.makeText(Details.this, "구글 아이디 연동에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                             showProgress(false);
