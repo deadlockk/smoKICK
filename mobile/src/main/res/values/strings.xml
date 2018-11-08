@@ -12,5 +12,7 @@
     <string name="devices">Devices</string>
     <string name="device_name_1">Device 1</string>
     <string name="device_name_2">Device 2</string>
-
+    <string name="heading_recent">Recent</string>
+    <string name="heading_my_posts">My Posts</string>
+    <string name="heading_my_top_posts">My Top Posts</string>
 </resources>

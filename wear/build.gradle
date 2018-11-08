@@ -18,12 +18,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '28.0.3'
 }
 
 dependencies {
+    //noinspection GradleCompatible
     compile 'com.google.android.support:wearable:1.1.0'
     compile 'com.google.android.gms:play-services-wearable:11.6.0'
+    //noinspection GradleCompatible
     compile "com.android.support:appcompat-v7:27.0.1"
 
 
