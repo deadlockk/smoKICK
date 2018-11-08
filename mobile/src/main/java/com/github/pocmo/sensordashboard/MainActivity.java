@@ -231,7 +231,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_calendar) {
             intent = new Intent(this, Calendar.class);
         } else if (id == R.id.nav_community) {
-            intent = new Intent(this, Community.class);
+            intent=new Intent(this,CommuniActivity.class);
+//            intent=new Intent(this,Community.class);
         } else if (id == R.id.nav_vs) {
             intent=new Intent(this,VSmode.class);
         } else if (id == R.id.nav_about) {
