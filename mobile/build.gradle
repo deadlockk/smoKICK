@@ -53,6 +53,7 @@ dependencies {
     implementation 'android.arch.core:runtime:1.1.1'
 
     implementation 'com.github.prolificinteractive:material-calendarview:1.5.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.1.4'
 }
 apply plugin: 'com.google.gms.google-services'
 com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
