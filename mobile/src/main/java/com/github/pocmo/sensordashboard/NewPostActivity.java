@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.pocmo.sensordashboard.models.Post;
-import com.github.pocmo.sensordashboard.models.User;
+//import com.github.pocmo.sensordashboard.models.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -74,24 +74,30 @@ public class NewPostActivity extends BaseActivity {
 
         // [START single_value_read]
         final String userId = getUid();
+        String userEmail = getEmail();
+        userEmail = userEmail.split("@")[0];
+        final String finalUserEmail = userEmail;
+
         mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         // Get user value
-                        User user = dataSnapshot.getValue(User.class);
+//                        User user = dataSnapshot.getValue(User.class);
+
+//                        Log.e(TAG, "User " + user + " is unexpectedly null");
 
                         // [START_EXCLUDE]
-                        if (user == null) {
-                            // User is null, error out
-                            Log.e(TAG, "User " + userId + " is unexpectedly null");
-                            Toast.makeText(NewPostActivity.this,
-                                    "Error: could not fetch user.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
+//                        if (user == null) {
+//                             //User is null, error out
+//                            Log.e(TAG, "User " + userId + " is unexpectedly null");
+//                            Toast.makeText(NewPostActivity.this,
+//                                    "Error: could not fetch user.",
+//                                    Toast.LENGTH_SHORT).show();
+//                        } else {
                             // Write new post
-                            writeNewPost(userId, user.username, title, body);
-                        }
+                            writeNewPost(userId, finalUserEmail, title, body);
+//                        }
 
                         // Finish this Activity, back to the stream
                         setEditingEnabled(true);
