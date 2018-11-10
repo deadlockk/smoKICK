@@ -11,13 +11,15 @@
         android:icon="@drawable/splash"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
+        android:supportsRtl="true"
         tools:replace="android:icon"
         tools:ignore="GoogleAppIndexingWarning">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
 
-        <activity android:name=".Splash">
+        <activity android:name=".Splash"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +31,6 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Emblem"></activity>
 
         <service android:name=".SensorReceiverService">
             <intent-filter>
@@ -39,12 +40,15 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Calendar"></activity>
-
+        <activity android:name=".Emblem" />
+        <activity android:name=".Calendar" />
         <activity android:name=".CommuniActivity" />
         <activity android:name=".NewPostActivity" />
         <activity android:name=".PostDetailActivity" />
-        <activity android:name=".VSmode"></activity>
+        <activity android:name=".VSmode"/>
+        <activity android:name=".AboutActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>
