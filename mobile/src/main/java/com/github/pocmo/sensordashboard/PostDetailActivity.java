@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.github.pocmo.sensordashboard.models.Comment;
 import com.github.pocmo.sensordashboard.models.Post;
-import com.github.pocmo.sensordashboard.models.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -143,8 +142,10 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         // Get user information
-                        User user = dataSnapshot.getValue(User.class);
-                        String authorName = user.username;
+                        String userEmail = getEmail();
+                        userEmail = userEmail.split("@")[0];
+
+                        String authorName = userEmail;
 
                         // Create new comment object
                         String commentText = mCommentField.getText().toString();
