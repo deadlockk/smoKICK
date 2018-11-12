@@ -37,7 +37,7 @@ public class Money extends Fragment {
         }
         sharedPreferences=getContext().getSharedPreferences("smokingInformation",Activity.MODE_PRIVATE);
         int temp=sharedPreferences.getInt("smokingInformation",-1);
-        textView.setText("Money Saved:    " + temp + "\nMoney Spent:    " + wasted + "\nCigarettes smoked:    " + b);
+        textView.setText("Money Saved:    " + saved + "\nMoney Spent:    " + wasted + "\nCigarettes smoked:    " + temp);
         return view;
     }
 

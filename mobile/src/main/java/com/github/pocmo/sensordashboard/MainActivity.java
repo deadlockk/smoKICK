@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Boolean isFirst=sharedPreferences.getBoolean("first",true);
 
         if(isFirst==null||isFirst) {
-            editor.putInt("smokingInformation", 1);
+            editor.putInt("smokingInformation", 0);
             editor.putBoolean("first",false);
             editor.commit();
         }
