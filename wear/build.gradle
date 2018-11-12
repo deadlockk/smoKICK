@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 
-
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -23,11 +22,11 @@ android {
 
 dependencies {
     //noinspection GradleCompatible
-    compile 'com.google.android.support:wearable:1.1.0'
-    compile 'com.google.android.gms:play-services-wearable:11.6.0'
+    implementation 'com.google.android.support:wearable:1.1.0'
+    implementation 'com.google.android.gms:play-services-wearable:11.6.0'
     //noinspection GradleCompatible
-    compile "com.android.support:appcompat-v7:27.0.1"
+    implementation "com.android.support:appcompat-v7:27.1.1"
 
 
-    compile project(':shared')
+    implementation project(':shared')
 }
