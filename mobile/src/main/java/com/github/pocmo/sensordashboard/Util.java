@@ -2,7 +2,9 @@ package com.github.pocmo.sensordashboard;
 
 
 import android.net.Uri;
-
+/*
+ * @author: Sangwon
+ */
 public class Util {
 
     public static String db="smoKICK";

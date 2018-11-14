@@ -14,7 +14,9 @@ import com.github.pocmo.sensordashboard.fragment.MyPostsFragment;
 import com.github.pocmo.sensordashboard.fragment.MyTopPostsFragment;
 import com.github.pocmo.sensordashboard.fragment.RecentPostsFragment;
 import com.google.firebase.auth.FirebaseAuth;
-
+/*
+ * @author: Sangwon
+ */
 public class CommuniActivity extends BaseActivity {
 
     private static final String TAG = "CommuniActivity";
