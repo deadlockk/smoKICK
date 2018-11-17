@@ -1,5 +1,7 @@
 package com.github.pocmo.sensordashboard.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -38,13 +41,15 @@ public abstract class PostListFragment extends Fragment {
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
 
-    public PostListFragment() {}
+    public PostListFragment() {
+    }
 
     @Override
-    public View onCreateView (LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_all_posts, container, false);
+
 
         // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -82,7 +87,7 @@ public abstract class PostListFragment extends Fragment {
             }
 
             @Override
-            protected void onBindViewHolder(PostViewHolder viewHolder, int position, final Post model) {
+            protected void onBindViewHolder(final PostViewHolder viewHolder, int position, final Post model) {
                 final DatabaseReference postRef = getRef(position);
 
                 // Set click listener for the whole post view
@@ -104,6 +109,7 @@ public abstract class PostListFragment extends Fragment {
                     viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
                 }
 
+
                 // Bind Post to ViewHolder, setting OnClickListener for the star button
                 viewHolder.bindToPost(model, new View.OnClickListener() {
                     @Override
@@ -115,6 +121,37 @@ public abstract class PostListFragment extends Fragment {
                         // Run two transactions
                         onStarClicked(globalPostRef);
                         onStarClicked(userPostRef);
+                    }
+                }, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("알림")        // 제목 설정
+                                .setMessage("게시물을 삭제 하시겠습니까?")        // 메세지 설정
+                                .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                    // 확인 버튼 클릭시 설정
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                                        String id = FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
+                                        if(!viewHolder.authorView.getText().equals(id)){
+                                            Toast.makeText(getContext(), "자신의 게시물만 삭제 가능합니다", Toast.LENGTH_LONG).show();
+                                        }else{
+                                            mDatabase.child("posts").child(postRef.getKey()).removeValue();
+                                            mDatabase.child("user-posts").child(model.uid).child(postRef.getKey()).removeValue();
+
+                                        }
+                                    }
+                                })
+                                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                    // 취소 버튼 클릭시 설정
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                        dialog.show();    // 알림창 띄우기
+
                     }
                 });
             }
