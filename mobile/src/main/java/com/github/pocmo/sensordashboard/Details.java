@@ -141,6 +141,11 @@ public class Details extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
 
+                // 실시간 DB에 유저 정보 등록
+                FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
+                User user = new User(f_user.getUid(), f_user.getEmail());
+                databaseReference.child("user").push().setValue(user);
+
             } catch (ApiException e) {
 
             }
@@ -157,11 +162,6 @@ public class Details extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // 실시간 DB에 유저 정보 등록
-                            FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
-                            User user = new User(f_user.getUid(), f_user.getEmail());
-                            databaseReference.child("user").push().setValue(user);
-
                             // 로그인 성공
                             Toast.makeText(Details.this, "구글 아이디 연동에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                             showProgress(false);
