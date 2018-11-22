@@ -6,14 +6,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-
 import com.github.pocmo.sensordashboard.fragment.MyPostsFragment;
 import com.github.pocmo.sensordashboard.fragment.MyTopPostsFragment;
 import com.github.pocmo.sensordashboard.fragment.RecentPostsFragment;
-import com.google.firebase.auth.FirebaseAuth;
+
 /*
  * @author: Sangwon
  */
