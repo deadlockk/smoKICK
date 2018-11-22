@@ -202,7 +202,11 @@ public class Details extends AppCompatActivity {
         super.onDestroy();
         // finish()할 때 실행되어 실시간 DB에 유저 정보 등록
         FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
-        User user = new User(f_user.getUid(), f_user.getEmail());
-        databaseReference.child("user").push().setValue(user);
+        User user = new User(f_user.getUid(), f_user.getEmail(), f_user.getPhotoUrl().toString());
+
+//        if(databaseReference.child("user_info").child())
+
+        databaseReference.child("user_info").child(user.getUsername()).push().setValue(user);
+
     }
 }

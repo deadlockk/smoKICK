@@ -10,6 +10,7 @@ import com.github.pocmo.sensordashboard.models.Post;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
 
+    public ImageView profileView;
     public TextView titleView;
     public TextView authorView;
     public ImageView starView;
@@ -20,6 +21,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public PostViewHolder(View itemView) {
         super(itemView);
 
+        profileView = itemView.findViewById(R.id.postAuthorPhoto);
         titleView = itemView.findViewById(R.id.postTitle);
         authorView = itemView.findViewById(R.id.postAuthor);
         starView = itemView.findViewById(R.id.star);
@@ -29,6 +31,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindToPost(Post post, View.OnClickListener starClickListener, View.OnClickListener garbageClickListener) {
+
         titleView.setText(post.title);
         authorView.setText(post.author);
         numStarsView.setText(String.valueOf(post.starCount));

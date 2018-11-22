@@ -1,9 +1,15 @@
 package com.github.pocmo.sensordashboard.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,15 +17,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.pocmo.sensordashboard.PostDetailActivity;
 import com.github.pocmo.sensordashboard.R;
+import com.github.pocmo.sensordashboard.User;
 import com.github.pocmo.sensordashboard.models.Post;
 import com.github.pocmo.sensordashboard.viewholder.PostViewHolder;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +39,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /*
  * @author: Sangwon
@@ -34,7 +53,7 @@ import com.google.firebase.database.Transaction;
 public abstract class PostListFragment extends Fragment {
 
     private static final String TAG = "PostListFragment";
-
+    String url;
     // [START define_database_reference]
     private DatabaseReference mDatabase;
     // [END define_database_reference]
@@ -42,6 +61,12 @@ public abstract class PostListFragment extends Fragment {
     private FirebaseRecyclerAdapter<Post, PostViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
+    private Activity activity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
 
     public PostListFragment() {
     }
@@ -51,6 +76,17 @@ public abstract class PostListFragment extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_all_posts, container, false);
+
+
+        //
+//        final FirebaseUser cur_user = FirebaseAuth.getInstance().getCurrentUser();
+//        RecyclerView recyclerView = (RecyclerView)rootView.findViewById(R.id.messagesList);
+//        View test = recyclerView.findViewById(R.id.postAuthorLayout);
+//        ImageView profile = (ImageView) test.findViewById(R.id.postAuthorPhoto);
+//
+//        if(cur_user != null) {
+//            Glide.with(this).load(cur_user.getPhotoUrl()).into(profile);
+//        }
 
 
         // [START create_database_reference]
@@ -94,12 +130,51 @@ public abstract class PostListFragment extends Fragment {
 
                 // Set click listener for the whole post view
                 final String postKey = postRef.getKey();
+
+                FirebaseUser cur_user = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = model.uid;
+                activity = getActivity();
+                if (activity == null || activity.isFinishing())
+                    return;
+                // String url;
+                mDatabase.child("user_info").child(uid).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        url = dataSnapshot.getValue(User.class).getPhotoURL();
+                        Glide.with(getActivity()).load(url).into(viewHolder.profileView);
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
+
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Launch PostDetailActivity
                         Intent intent = new Intent(getActivity(), PostDetailActivity.class);
                         intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
+                        intent.putExtra("URL",url);
                         startActivity(intent);
                     }
                 });
@@ -136,9 +211,9 @@ public abstract class PostListFragment extends Fragment {
                                     public void onClick(DialogInterface dialog, int whichButton) {
 
                                         String id = FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
-                                        if(!viewHolder.authorView.getText().equals(id)){
+                                        if (!viewHolder.authorView.getText().equals(id)) {
                                             Toast.makeText(getContext(), "자신의 게시물만 삭제 가능합니다", Toast.LENGTH_LONG).show();
-                                        }else{
+                                        } else {
                                             mDatabase.child("posts").child(postRef.getKey()).removeValue();
                                             mDatabase.child("user-posts").child(model.uid).child(postRef.getKey()).removeValue();
 

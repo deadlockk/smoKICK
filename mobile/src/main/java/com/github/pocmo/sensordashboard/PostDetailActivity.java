@@ -1,6 +1,7 @@
 package com.github.pocmo.sensordashboard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.github.pocmo.sensordashboard.models.Comment;
 import com.github.pocmo.sensordashboard.models.Post;
 import com.google.firebase.database.ChildEventListener;
@@ -40,6 +43,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private String mPostKey;
     private CommentAdapter mAdapter;
 
+    private View mView;
     private TextView mAuthorView;
     private TextView mTitleView;
     private TextView mBodyView;
@@ -64,8 +68,13 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         mCommentsReference = FirebaseDatabase.getInstance().getReference()
                 .child("post-comments").child(mPostKey);
 
+        String url = getIntent().getStringExtra("URL");
         // Initialize Views
         mAuthorView = findViewById(R.id.postAuthor);
+        mView = findViewById(R.id.postAuthorLayout);
+        ImageView v = mView.findViewById(R.id.postAuthorPhoto);
+        Glide.with(getApplicationContext()).load(url).into(v);
+
         mTitleView = findViewById(R.id.postTitle);
         mBodyView = findViewById(R.id.postBody);
         mCommentField = findViewById(R.id.fieldCommentText);
