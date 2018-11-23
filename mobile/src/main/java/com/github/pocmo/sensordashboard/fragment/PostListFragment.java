@@ -46,6 +46,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 /*
  * @author: Sangwon
@@ -53,7 +57,7 @@ import java.net.URL;
 public abstract class PostListFragment extends Fragment {
 
     private static final String TAG = "PostListFragment";
-    String url;
+    private HashMap<String, String> url;
     // [START define_database_reference]
     private DatabaseReference mDatabase;
     // [END define_database_reference]
@@ -62,10 +66,12 @@ public abstract class PostListFragment extends Fragment {
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
     private Activity activity;
+    String u;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        url = new HashMap<>();
     }
 
     public PostListFragment() {
@@ -125,7 +131,7 @@ public abstract class PostListFragment extends Fragment {
             }
 
             @Override
-            protected void onBindViewHolder(final PostViewHolder viewHolder, int position, final Post model) {
+            protected void onBindViewHolder(final PostViewHolder viewHolder, final int position, final Post model) {
                 final DatabaseReference postRef = getRef(position);
 
                 // Set click listener for the whole post view
@@ -140,8 +146,11 @@ public abstract class PostListFragment extends Fragment {
                 mDatabase.child("user_info").child(uid).addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        url = dataSnapshot.getValue(User.class).getPhotoURL();
-                        Glide.with(getActivity()).load(url).into(viewHolder.profileView);
+                        u = dataSnapshot.getValue(User.class).getPhotoURL();
+                        if (!url.containsKey(u))
+                            url.put(u, u);
+                        //Log.e("Post", url.size() +";"+position);
+                        Glide.with(getActivity()).load(url.get(u)).into(viewHolder.profileView);
                     }
 
                     @Override
@@ -165,16 +174,13 @@ public abstract class PostListFragment extends Fragment {
                     }
                 });
 
-
-
-
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Launch PostDetailActivity
                         Intent intent = new Intent(getActivity(), PostDetailActivity.class);
                         intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
-                        intent.putExtra("URL",url);
+                        intent.putExtra("URL", url.get(u));
                         startActivity(intent);
                     }
                 });
