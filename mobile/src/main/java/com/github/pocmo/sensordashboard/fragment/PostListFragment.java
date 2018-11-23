@@ -5,8 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,8 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -39,17 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 /*
  * @author: Sangwon
@@ -82,18 +69,6 @@ public abstract class PostListFragment extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_all_posts, container, false);
-
-
-        //
-//        final FirebaseUser cur_user = FirebaseAuth.getInstance().getCurrentUser();
-//        RecyclerView recyclerView = (RecyclerView)rootView.findViewById(R.id.messagesList);
-//        View test = recyclerView.findViewById(R.id.postAuthorLayout);
-//        ImageView profile = (ImageView) test.findViewById(R.id.postAuthorPhoto);
-//
-//        if(cur_user != null) {
-//            Glide.with(this).load(cur_user.getPhotoUrl()).into(profile);
-//        }
-
 
         // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -137,8 +112,7 @@ public abstract class PostListFragment extends Fragment {
                 // Set click listener for the whole post view
                 final String postKey = postRef.getKey();
 
-                FirebaseUser cur_user = FirebaseAuth.getInstance().getCurrentUser();
-                String uid = model.uid;
+               String uid = model.uid;
                 activity = getActivity();
                 if (activity == null || activity.isFinishing())
                     return;
@@ -180,7 +154,7 @@ public abstract class PostListFragment extends Fragment {
                         // Launch PostDetailActivity
                         Intent intent = new Intent(getActivity(), PostDetailActivity.class);
                         intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
-                        intent.putExtra("URL", url.get(u));
+//                        intent.putExtra("URL", url.get(u));
                         startActivity(intent);
                     }
                 });

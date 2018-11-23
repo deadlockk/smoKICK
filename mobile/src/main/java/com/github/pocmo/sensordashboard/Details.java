@@ -4,12 +4,15 @@ package com.github.pocmo.sensordashboard;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -30,6 +33,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.*;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.HashMap;
+
 /*
  * @author: Sangwon
  */
@@ -41,6 +47,7 @@ public class Details extends AppCompatActivity {
     RadioButton female;
     SignInButton submit;
     ProgressBar loginProgress;
+
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -201,12 +208,11 @@ public class Details extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         // finish()할 때 실행되어 실시간 DB에 유저 정보 등록
-        FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
-        User user = new User(f_user.getUid(), f_user.getEmail(), f_user.getPhotoUrl().toString());
+        final FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
 
-//        if(databaseReference.child("user_info").child())
+         User user = new User(f_user.getUid(), f_user.getEmail(), f_user.getPhotoUrl().toString());
+       databaseReference.child("user_info").child(user.getUsername()).push().setValue(user);
 
-        databaseReference.child("user_info").child(user.getUsername()).push().setValue(user);
 
     }
 }
