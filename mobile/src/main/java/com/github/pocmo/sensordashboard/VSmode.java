@@ -1,5 +1,8 @@
 package com.github.pocmo.sensordashboard;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,17 +11,33 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+/*
+ *  @author: AHJ
+ */
 
 public class VSmode extends AppCompatActivity {
-    String tokenID;
-    String email;
-    EditText editBet;
-    TextView textBet;
-    TextView myEmail;
-    EditText opponentEmail;
-    TextView opponentText;
-    String betting;
-    EditText editText;
+    private String tokenID;
+    private String email;
+    private EditText editBet;
+    private TextView textBet;
+    private TextView myEmail;
+    private EditText opponentEmail;
+    private TextView opponentText;
+    private String betting;
+    private EditText editText;
+
+    private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,5 +51,31 @@ public class VSmode extends AppCompatActivity {
         myEmail.setText(email);
         opponentEmail = findViewById(R.id.editOpponent);
         Log.e("가나다", "" + tokenID + ", " + email);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Query userQuery = getQuery(mDatabase);
+        ArrayList<User> al = new ArrayList<>();
+        String newUser;
+
+        mDatabase.child("user_info").child(tokenID).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        User u1 = dataSnapshot.getValue(User.class);
+                        Log.e("가나다라마", u1.getEmail() + " , " + u1.getUsername());
+                        // Details에 user_info push() 없애기.
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                }
+        );
+    }
+
+    public Query getQuery(DatabaseReference databaseReference) {
+        Query userQuery = databaseReference.child("user");
+        return userQuery;
     }
 }
