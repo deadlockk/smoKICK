@@ -55,8 +55,8 @@ public class SensorService extends Service implements SensorEventListener {
     private ScheduledExecutorService mScheduler;
 
     private long currentTime;
-    private double sum=0;
-    private int count=0, totcount=0;
+    private double sum=0, sum2=0;
+    private int count=0,count2=0, totcount=0;
     private static final int windowSize=1000;
     //private static final int DOWN=0;
     private int status;
@@ -286,6 +286,13 @@ public class SensorService extends Service implements SensorEventListener {
             count++;
             Log.d("smoking", "" + event.values[0]);
         }
+        else if(event.sensor.getType()==Sensor.TYPE_HEART_RATE)
+        {
+            sum2+=event.values[0];
+            count2++;
+            Log.d("heart"," "+event.values[0]);
+        }
+
         long now=System.currentTimeMillis();
 
         if(now-currentTime>=windowSize) //windowSize 마다
@@ -319,8 +326,10 @@ public class SensorService extends Service implements SensorEventListener {
                     int min=temp.compareTo(1000L);
                     int max=temp.compareTo(3000L);
                     //             Log.d("smoking","비교"+min+" "+max);
-                    if (min>=0 && max<=0) //1~5초동안 지속되었다면
+                    if (min>=0 && max<=0&&sum2/count2>10) //1~3초동안 지속되었다면
                     {
+                        sum2=0;
+                        count2=0;
                         temp=now-smokeTime;
                         min=temp.compareTo(3000L);
                         max=temp.compareTo(30000L);
@@ -329,6 +338,7 @@ public class SensorService extends Service implements SensorEventListener {
                         else {
                             totcount++;
                             Log.d("smoking","흡입동작 관측!");
+
                             if (totcount == 5) //5회 이상 smoking action 감지시
                             {
                                 Log.d("smoking","흡연 탐지!");
