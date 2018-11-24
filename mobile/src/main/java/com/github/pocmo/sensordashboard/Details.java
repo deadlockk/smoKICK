@@ -108,10 +108,10 @@ public class Details extends AppCompatActivity {
 
                     editor.putString("Name", name.getText().toString().trim());
                     editor.putInt("Age", Integer.parseInt(age.getText().toString().trim()));
-                    float priceone = Integer.parseInt(price.getText().toString().trim())/20;
-                    int numberdaily = Integer.parseInt(number.getText().toString().trim());
-                    editor.putFloat("Daily", numberdaily);
-                    editor.putFloat("Price", priceone);
+                    float price_one = (float)Integer.parseInt(price.getText().toString().trim())/20;
+                    int number_daily = Integer.parseInt(number.getText().toString().trim());
+                    editor.putInt("dly", number_daily);
+                    editor.putFloat("prc", price_one);
                     long now=System.currentTimeMillis();
                     editor.putLong("Time",now);
 

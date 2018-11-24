@@ -47,15 +47,15 @@ public class Money extends Fragment {
         int smokingCnt = sharedPreferences.getInt("smokingInformation", -1);
 
         sharedPreferences2 = getContext().getSharedPreferences("smoKICK", Activity.MODE_PRIVATE);
-        float Daily = sharedPreferences2.getFloat("Daily", -1); //하루에 피는 개수
-        float Price = sharedPreferences2.getFloat("Price", -1); //한 까치 가격
+        int day = sharedPreferences2.getInt("dly", -1); //하루에 피는 개수
+        float price = sharedPreferences2.getFloat("prc", -1); //한 까치 가격
         long time = sharedPreferences2.getLong("Time", 0);
 
         long now=System.currentTimeMillis();
 
         int t=(int)((now-time)/1000/60);
-        float spent=Price*smokingCnt;
-        float saved=(Daily*Price)/1440*t-spent;
+        float spent=price*smokingCnt;
+        float saved=(day*price)/1440*t-spent;
 
         if(saved<0)
             textView.setTextColor(Color.RED);
