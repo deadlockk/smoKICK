@@ -35,6 +35,7 @@ public class Calendar extends AppCompatActivity {
         MCV.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                txt.setText("");
                 String y = Integer.toString(date.getYear());
                 String m;
                 String d;
