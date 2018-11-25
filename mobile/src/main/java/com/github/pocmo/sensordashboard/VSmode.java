@@ -56,22 +56,6 @@ public class VSmode extends AppCompatActivity {
         Query userQuery = getQuery(mDatabase);
         ArrayList<User> al = new ArrayList<>();
         String newUser;
-
-        mDatabase.child("user_info").child(tokenID).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        User u1 = dataSnapshot.getValue(User.class);
-                        Log.e("가나다라마", u1.getEmail() + " , " + u1.getUsername());
-                        // Details에 user_info push() 없애기.
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                }
-        );
     }
 
     public Query getQuery(DatabaseReference databaseReference) {

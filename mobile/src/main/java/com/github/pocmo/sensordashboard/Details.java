@@ -149,7 +149,6 @@ public class Details extends AppCompatActivity {
                 // 구글 로그인 성공
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-
             } catch (ApiException e) {
 
             }
@@ -209,12 +208,5 @@ public class Details extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // finish()할 때 실행되어 실시간 DB에 유저 정보 등록
-        final FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
-
-         User user = new User(f_user.getUid(), f_user.getEmail(), f_user.getPhotoUrl().toString());
-       databaseReference.child("user_info").child(user.getUsername()).push().setValue(user);
-
-
     }
 }

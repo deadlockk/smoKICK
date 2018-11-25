@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,8 +36,15 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -58,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SharedPreferences sharedPreferences;
 
     ImageButton profile;
+
+    // 파이어베이스 실시간 DB
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
     void init() {
 
@@ -106,6 +119,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Main에 진입 할 때 실행되어 실시간 DB에 유저 정보 등록
+        final FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
+        User user = new User(f_user.getUid(), f_user.getEmail(), f_user.getPhotoUrl().toString());
+        databaseReference.child("user_info").child(user.getUsername()).setValue(user); // push()를 하지 않기 때문에 중복처리 가능
+
+        final ArrayList<User> userArrayList = new ArrayList<>();
+        ValueEventListener userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    userArrayList.add(snapshot.getValue(User.class));
+                    Log.e("가나다", "진입햇당");
+                }
+
+                Iterator<User> it = userArrayList.iterator();
+                while (it.hasNext()) {
+                    User tempUser = it.next();
+                    Log.e("가나다", "이터" + tempUser.getUsername() + ",  " + tempUser.getEmail());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        databaseReference.child("user_info").addValueEventListener(userListener);
+/*        databaseReference.child("user_info").child(f_user.getUid()).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //User userInfo = dataSnapshot.getValue(User.class);
+                        String userEmail = dataSnapshot.getValue(User.class).getEmail();
+                        Log.e("가나다", "진입 " + userEmail);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                }
+        );*/
 
         init();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
