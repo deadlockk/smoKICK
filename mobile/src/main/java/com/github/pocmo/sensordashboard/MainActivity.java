@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // 파이어베이스 실시간 DB
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    // User ArrayList
+    ArrayList<User> userArrayList = new ArrayList<>();
 
     void init() {
 
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         User user = new User(f_user.getUid(), f_user.getEmail(), f_user.getPhotoUrl().toString());
         databaseReference.child("user_info").child(user.getUsername()).setValue(user); // push()를 하지 않기 때문에 중복처리 가능
 
-        final ArrayList<User> userArrayList = new ArrayList<>();
+
         ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
