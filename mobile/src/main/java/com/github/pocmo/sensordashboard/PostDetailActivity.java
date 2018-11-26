@@ -74,37 +74,6 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         // Initialize Views
         mAuthorView = findViewById(R.id.postAuthor);
         mView = findViewById(R.id.postAuthorLayout);
-//
-//       DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-//        mDatabase.child("user_info").child(url).addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                String u = dataSnapshot.getValue(User.class).getPhotoURL();
-//                ImageView v = mView.findViewById(R.id.postAuthorPhoto);
-//                //Log.e("Post", url.size() +";"+position);
-//                Glide.with(getApplicationContext()).load(u).into(v);
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
 
 
         mTitleView = findViewById(R.id.postTitle);

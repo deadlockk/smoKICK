@@ -121,13 +121,12 @@ public abstract class PostListFragment extends Fragment {
                 mDatabase.child("user-posts").child(uid).addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                         u = dataSnapshot.getValue(Post.class).photoURL;
 
-                        Log.e("zzzz", u);
+                         u = dataSnapshot.getValue(Post.class).photoURL;//프로필 사진 url 받아오기
+
                         if (!url.containsKey(u))
                             url.put(u, u);
-                        //Log.e("Post", url.size() +";"+position);
-                        Glide.with(getActivity()).load(url.get(u)).into(viewHolder.profileView);
+                        Glide.with(getActivity()).load(url.get(u)).into(viewHolder.profileView); //프로필 사진 보여주기
                     }
 
                     @Override
