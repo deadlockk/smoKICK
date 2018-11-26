@@ -6,6 +6,9 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author: Sangwon
+ */
 // [START post_class]
 @IgnoreExtraProperties
 public class Post {

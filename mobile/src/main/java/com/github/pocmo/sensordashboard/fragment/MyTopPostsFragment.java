@@ -2,7 +2,9 @@ package com.github.pocmo.sensordashboard.fragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
-
+/**
+ * @author: Sangwon
+ */
 public class MyTopPostsFragment extends PostListFragment {
 
     public MyTopPostsFragment() {}
