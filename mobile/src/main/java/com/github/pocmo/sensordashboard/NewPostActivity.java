@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.github.pocmo.sensordashboard.models.Post;
 //import com.github.pocmo.sensordashboard.models.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -77,8 +78,9 @@ public class NewPostActivity extends BaseActivity {
         String userEmail = getEmail();
         userEmail = userEmail.split("@")[0];
         final String finalUserEmail = userEmail;
+        final String photoURL = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
 
-        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
+        mDatabase.child("user_info").child(userId).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -96,7 +98,7 @@ public class NewPostActivity extends BaseActivity {
 //                                    Toast.LENGTH_SHORT).show();
 //                        } else {
                             // Write new post
-                            writeNewPost(userId, finalUserEmail, title, body);
+                            writeNewPost(userId, finalUserEmail, title, body, photoURL);
 //                        }
 
                         // Finish this Activity, back to the stream
@@ -127,11 +129,11 @@ public class NewPostActivity extends BaseActivity {
     }
 
     // [START write_fan_out]
-    private void writeNewPost(String userId, String username, String title, String body) {
+    private void writeNewPost(String userId, String username, String title, String body, String photoURL) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("posts").push().getKey();
-        Post post = new Post(userId, username, title, body);
+        Post post = new Post(userId, username, title, body, photoURL);
         Map<String, Object> postValues = post.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();

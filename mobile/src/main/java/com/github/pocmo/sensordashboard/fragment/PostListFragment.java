@@ -2,6 +2,7 @@ package com.github.pocmo.sensordashboard.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -112,15 +113,17 @@ public abstract class PostListFragment extends Fragment {
                 // Set click listener for the whole post view
                 final String postKey = postRef.getKey();
 
-               String uid = model.uid;
+               final String uid = model.uid;
                 activity = getActivity();
                 if (activity == null || activity.isFinishing())
                     return;
                 // String url;
-                mDatabase.child("user_info").child(uid).addChildEventListener(new ChildEventListener() {
+                mDatabase.child("user-posts").child(uid).addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        u = dataSnapshot.getValue(User.class).getPhotoURL();
+                         u = dataSnapshot.getValue(Post.class).photoURL;
+
+                        Log.e("zzzz", u);
                         if (!url.containsKey(u))
                             url.put(u, u);
                         //Log.e("Post", url.size() +";"+position);
