@@ -59,7 +59,7 @@ public class VSmode extends AppCompatActivity {
     }
 
     public Query getQuery(DatabaseReference databaseReference) {
-        Query userQuery = databaseReference.child("user");
+        Query userQuery = databaseReference.child("user_info");
         return userQuery;
     }
 }
