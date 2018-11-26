@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Main에 진입 할 때 실행되어 실시간 DB에 유저 정보 등록
         final FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
-        User user = new User(f_user.getUid(), f_user.getEmail());
+        User user = new User(f_user.getUid(), f_user.getEmail());//user_info에 두가지만 넣음
         databaseReference.child("user_info").child(user.getUsername()).setValue(user); // push()를 하지 않기 때문에 중복처리 가능
 
         ValueEventListener userListener = new ValueEventListener() {
