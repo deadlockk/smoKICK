@@ -1,4 +1,5 @@
 package com.github.pocmo.sensordashboard;
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
@@ -18,6 +19,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * author SangWon
+ */
 
 public class NewPostActivity extends BaseActivity {
 
@@ -84,22 +89,7 @@ public class NewPostActivity extends BaseActivity {
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Get user value
-//                        User user = dataSnapshot.getValue(User.class);
-
-//                        Log.e(TAG, "User " + user + " is unexpectedly null");
-
-                        // [START_EXCLUDE]
-//                        if (user == null) {
-//                             //User is null, error out
-//                            Log.e(TAG, "User " + userId + " is unexpectedly null");
-//                            Toast.makeText(NewPostActivity.this,
-//                                    "Error: could not fetch user.",
-//                                    Toast.LENGTH_SHORT).show();
-//                        } else {
-                            // Write new post
-                            writeNewPost(userId, finalUserEmail, title, body, photoURL);
-//                        }
+                        writeNewPost(userId, finalUserEmail, title, body, photoURL);
 
                         // Finish this Activity, back to the stream
                         setEditingEnabled(true);

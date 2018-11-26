@@ -127,28 +127,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         User user = new User(f_user.getUid(), f_user.getEmail());
         databaseReference.child("user_info").child(user.getUsername()).setValue(user); // push()를 하지 않기 때문에 중복처리 가능
 
+        ValueEventListener userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    userArrayList.add(snapshot.getValue(User.class));
+                    Log.e("가나다", "진입햇당");
+                }
 
-//        ValueEventListener userListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-//                    userArrayList.add(snapshot.getValue(User.class));
-//                    Log.e("가나다", "진입햇당");
-//                }
-//
-//                Iterator<User> it = userArrayList.iterator();
-//                while (it.hasNext()) {
-//                    User tempUser = it.next();
-//                    Log.e("가나다", "이터" + tempUser.getUsername() + ",  " + tempUser.getEmail());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        };
-//        databaseReference.child("user_info").addValueEventListener(userListener);
+                Iterator<User> it = userArrayList.iterator();
+                while (it.hasNext()) {
+                    User tempUser = it.next();
+                    Log.e("가나다", "이터" + tempUser.getUsername() + ",  " + tempUser.getEmail());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        databaseReference.child("user_info").addValueEventListener(userListener);
 /*        databaseReference.child("user_info").child(f_user.getUid()).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
