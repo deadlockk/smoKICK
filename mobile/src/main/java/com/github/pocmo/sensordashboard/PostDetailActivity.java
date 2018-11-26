@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-/*
+/**
  * @author: Sangwon
  */
 public class PostDetailActivity extends BaseActivity implements View.OnClickListener {

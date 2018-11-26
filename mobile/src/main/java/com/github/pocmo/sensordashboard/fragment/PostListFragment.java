@@ -39,7 +39,7 @@ import com.google.firebase.database.Transaction;
 
 import java.util.HashMap;
 
-/*
+/**
  * @author: Sangwon
  */
 public abstract class PostListFragment extends Fragment {
