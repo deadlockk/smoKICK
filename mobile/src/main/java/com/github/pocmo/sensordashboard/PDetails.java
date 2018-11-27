@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-/*
+/**
  * @author: Sangwon
  */
 public class PDetails extends Fragment {
