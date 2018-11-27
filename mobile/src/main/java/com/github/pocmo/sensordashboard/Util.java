@@ -2,7 +2,7 @@ package com.github.pocmo.sensordashboard;
 
 
 import android.net.Uri;
-/*
+/**
  * @author: Sangwon
  */
 public class Util {
