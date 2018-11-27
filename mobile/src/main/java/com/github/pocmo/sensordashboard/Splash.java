@@ -15,7 +15,7 @@ import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-/*
+/**
  * @author: Sangwon
  */
 
