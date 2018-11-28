@@ -71,8 +71,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // 파이어베이스 실시간 DB
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
-    // User ArrayList
-    ArrayList<User> userArrayList = new ArrayList<>();
 
     void init() {
 
@@ -124,45 +122,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Main에 진입 할 때 실행되어 실시간 DB에 유저 정보 등록
         final FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
-        User user = new User(f_user.getUid(), f_user.getEmail());//user_info에 두가지만 넣음
+        User user = new User(f_user.getUid(), f_user.getEmail(), "false");//user_info에 세가지만 넣음
         databaseReference.child("user_info").child(user.getUsername()).setValue(user); // push()를 하지 않기 때문에 중복처리 가능
-
-        ValueEventListener userListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    userArrayList.add(snapshot.getValue(User.class));
-                    Log.e("가나다", "진입햇당");
-                }
-
-                Iterator<User> it = userArrayList.iterator();
-                while (it.hasNext()) {
-                    User tempUser = it.next();
-                    Log.e("가나다", "이터" + tempUser.getUsername() + ",  " + tempUser.getEmail());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        databaseReference.child("user_info").addValueEventListener(userListener);
-/*        databaseReference.child("user_info").child(f_user.getUid()).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //User userInfo = dataSnapshot.getValue(User.class);
-                        String userEmail = dataSnapshot.getValue(User.class).getEmail();
-                        Log.e("가나다", "진입 " + userEmail);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                }
-        );*/
 
         init();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
