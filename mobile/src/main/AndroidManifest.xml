@@ -45,7 +45,8 @@
         <activity android:name=".CommuniActivity" />
         <activity android:name=".NewPostActivity" />
         <activity android:name=".PostDetailActivity" />
-        <activity android:name=".VSmode"/>
+        <activity android:name=".VSmode"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".AboutActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 

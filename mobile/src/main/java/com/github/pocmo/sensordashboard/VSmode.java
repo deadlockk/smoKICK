@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,46 +22,78 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /*
  *  @author: AHJ
  */
 
 public class VSmode extends AppCompatActivity {
-    private String tokenID;
-    private String email;
-    private EditText editBet;
-    private TextView textBet;
-    private TextView myEmail;
-    private EditText opponentEmail;
-    private TextView opponentText;
-    private String betting;
-    private EditText editText;
-
+    private String myTokenID;
+    private String myEmail;
+    private EditText searchEmail;
+    private EditText betContents;
+    private Button btn;
     private DatabaseReference mDatabase;
+    ArrayList<User> userArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vsmode);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        tokenID = user.getUid();
-        email = user.getEmail();
-        editBet = findViewById(R.id.editBet);
-        //textBet = findViewById(R.id.textBet);
-        myEmail = findViewById(R.id.i);
-        myEmail.setText(email);
-        opponentEmail = findViewById(R.id.editOpponent);
-        Log.e("가나다", "" + tokenID + ", " + email);
+        myTokenID = user.getUid();
+        myEmail = user.getEmail();
+        searchEmail = findViewById(R.id.searchEmail);
+        betContents = findViewById(R.id.betContents);
+        btn = findViewById(R.id.complete);
+        Log.e("가나다", "" + myTokenID + ", " + myEmail);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Query userQuery = getQuery(mDatabase);
-        ArrayList<User> al = new ArrayList<>();
-        String newUser;
-    }
 
-    public Query getQuery(DatabaseReference databaseReference) {
-        Query userQuery = databaseReference.child("user_info");
-        return userQuery;
+        ValueEventListener userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    userArrayList.add(snapshot.getValue(User.class)); // 전체 User정보를 ArrayList에 저장
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mDatabase.child("user_info").addValueEventListener(userListener);
+
+        Iterator<User> checkIsVS = userArrayList.iterator();
+        while (checkIsVS.hasNext()) {
+            User tempUser = checkIsVS.next();
+            if (myEmail.equals(tempUser.getEmail()) && "true".equals(tempUser.getIsVS())) {
+                // VS모드 진행중 액티비티 startActivity();
+            }
+            else { // if "false", then
+
+            }
+        }
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Iterator<User> checkEmail = userArrayList.iterator();
+                while (checkEmail.hasNext()) {
+                    User tempUser = checkEmail.next();
+                    if ((searchEmail.getText().toString()).equals(tempUser.getEmail())) {
+                        Log.e("제발", searchEmail.getText() + "이메일이 있습니다");
+
+                        break;
+                    }
+                    else {
+                        Log.e("제발", searchEmail.getText().toString() + "이메일이 없습니다.");
+                        Log.e("제발2", tempUser.getEmail() + " 이거");
+                    }
+                }
+            }
+        });
     }
 }
