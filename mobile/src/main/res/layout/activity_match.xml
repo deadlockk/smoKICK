@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MatchActivity">
+    android:background="@drawable/bg_match"
+    android:orientation="vertical">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/yourProfile"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/ic_action_account_circle_40" />
+
+    <TextView
+        android:id="@+id/yourID"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="90dp"
+        android:text="idid"
+     />
+
+    <TextView
+        android:id="@+id/myID"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="65dp"
+        android:text="idid"
+        />
+    <ImageView
+        android:id="@+id/myProfile"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/ic_action_account_circle_40" />
+
+</FrameLayout>
