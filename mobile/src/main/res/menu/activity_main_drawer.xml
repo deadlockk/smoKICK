@@ -4,28 +4,28 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@color/colorAccent"
+            android:icon="@drawable/home"
             android:tooltipText="Dashboard"
             android:title="Home" />
         <item
             android:id="@+id/nav_calendar"
-            android:icon="@color/defaultTextColor"
+            android:icon="@drawable/calendar"
             android:title="Smoking Calendar" />
         <item
             android:id="@+id/nav_community"
-            android:icon="@color/darkGray"
+            android:icon="@drawable/community"
             android:title="Community" />
         <item
             android:id="@+id/nav_vs"
-            android:icon="@color/colorAccent"
+            android:icon="@drawable/vsmode"
             android:title="Vs mode" />
         <item
             android:id="@+id/nav_about"
-            android:icon="@color/defaultTextColor"
+            android:icon="@drawable/about_app"
             android:title="About" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@color/darkGray"
+            android:icon="@drawable/logout"
             android:title="Log out" />
     </group>
 </menu>
