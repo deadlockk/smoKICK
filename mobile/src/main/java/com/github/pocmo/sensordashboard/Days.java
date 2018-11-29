@@ -13,8 +13,6 @@ import android.widget.TextView;
  */
 public class Days extends Fragment {
 
-
-
     SharedPreferences sharedPreferences;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

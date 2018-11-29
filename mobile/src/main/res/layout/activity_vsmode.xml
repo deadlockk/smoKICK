@@ -28,11 +28,12 @@
 
     <Button
         android:id="@+id/complete"
-        android:background="@drawable/complete"
+        android:background="@drawable/selector_image"
         android:layout_marginTop="80dp"
         android:layout_marginLeft="150dp"
         android:layout_width="115dp"
-        android:layout_height="45dp" />
+        android:layout_height="45dp"
+        android:focusableInTouchMode="true"/>
 
 
 </LinearLayout>

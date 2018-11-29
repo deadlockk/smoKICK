@@ -29,7 +29,7 @@ public class PDetails extends Fragment {
         date = (TextView) view.findViewById(R.id.date);
 
         sharedPreferences = getActivity().getSharedPreferences("smoKICK", Context.MODE_PRIVATE);
-        textView.setText("Hi," + sharedPreferences.getString("Name", "Name"));
+        textView.setText("\n\n\nHi,  " + sharedPreferences.getString("Name", "Name"));
         Date d = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd,MMM,yyyy");
         date.setText("Today: " + dateFormat.format(d).toString() + "\nWe Appreciate your effort to quit Smoking.");
