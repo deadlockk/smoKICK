@@ -1,5 +1,6 @@
 package com.github.pocmo.sensordashboard;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 
 /*
  *  @author: AHJ
@@ -36,6 +38,7 @@ public class VSmode extends AppCompatActivity {
     private Button btn;
     private DatabaseReference mDatabase;
     ArrayList<User> userArrayList = new ArrayList<>();
+    ArrayList<Match> matchArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class VSmode extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        ValueEventListener userListener = new ValueEventListener() {
+        ValueEventListener userListener = new ValueEventListener() { // User디비 Callback메소드
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
@@ -66,11 +69,31 @@ public class VSmode extends AppCompatActivity {
         };
         mDatabase.child("user_info").addValueEventListener(userListener);
 
-        Iterator<User> checkIsVS = userArrayList.iterator();
-        while (checkIsVS.hasNext()) {
-            User tempUser = checkIsVS.next();
-            if (myEmail.equals(tempUser.getEmail()) && "true".equals(tempUser.getIsVS())) {
+        ValueEventListener matchListener = new ValueEventListener() { // match 정보 콜백
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren())
+                matchArrayList.add(snapshot.getValue(Match.class)); // 매칭 정보를 ArrayList에 저장
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mDatabase.child("match").addValueEventListener(matchListener);
+
+
+        Iterator<Match> checkMatch = matchArrayList.iterator();
+        while (checkMatch.hasNext()) {
+            Match m = checkMatch.next();
+            StringTokenizer st = new StringTokenizer(m.getId(), ",");
+            if (st.nextToken().equals(myTokenID) || st.nextToken().equals(myTokenID)) {
                 // VS모드 진행중 액티비티 startActivity();
+                Log.e("제발3", "진입입");
+                Intent intent = new Intent(this, MatchActivity.class);
+                startActivity(intent);
+                finish();
             }
             else { // if "false", then
 
@@ -85,14 +108,17 @@ public class VSmode extends AppCompatActivity {
                     User tempUser = checkEmail.next();
                     if ((searchEmail.getText().toString()).equals(tempUser.getEmail())) {
                         Log.e("제발", searchEmail.getText() + "이메일이 있습니다");
-
+                        Match m = new Match(betContents.getText().toString(), myTokenID + "," + tempUser.getUsername());
+                        mDatabase.child("match").child(myTokenID + "," + tempUser.getUsername()).setValue(m);
+                        Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
+                        startActivity(intent);
+                        finish();
                         break;
                     }
                     else {
-                        Log.e("제발", searchEmail.getText().toString() + "이메일이 없습니다.");
-                        Log.e("제발2", tempUser.getEmail() + " 이거");
                     }
                 }
+                // 유효한 이메일 검색이 아닐 때
             }
         });
     }
