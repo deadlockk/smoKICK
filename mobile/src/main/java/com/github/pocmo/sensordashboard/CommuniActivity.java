@@ -11,7 +11,7 @@ import com.github.pocmo.sensordashboard.fragment.MyPostsFragment;
 import com.github.pocmo.sensordashboard.fragment.MyTopPostsFragment;
 import com.github.pocmo.sensordashboard.fragment.RecentPostsFragment;
 
-/*
+/**
  * @author: Sangwon
  */
 public class CommuniActivity extends BaseActivity {
@@ -65,24 +65,5 @@ public class CommuniActivity extends BaseActivity {
             }
         });
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int i = item.getItemId();
-//        if (i == R.id.action_logout) {
-//            FirebaseAuth.getInstance().signOut();
-//            startActivity(new Intent(this, SignInActivity.class));
-//            finish();
-//            return true;
-//        } else {
-//            return super.onOptionsItemSelected(item);
-//        }
-//    }
 
 }

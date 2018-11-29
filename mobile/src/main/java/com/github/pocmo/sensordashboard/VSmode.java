@@ -33,7 +33,7 @@ import java.util.StringTokenizer;
 public class VSmode extends AppCompatActivity {
     private String myTokenID;
     private String myEmail;
-    private EditText searchEmail;
+    static EditText searchEmail;
     private EditText betContents;
     private Button btn;
     private DatabaseReference mDatabase;
@@ -51,6 +51,7 @@ public class VSmode extends AppCompatActivity {
         betContents = findViewById(R.id.betContents);
         btn = findViewById(R.id.complete);
         Log.e("가나다", "" + myTokenID + ", " + myEmail);
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 

@@ -52,7 +52,9 @@
         <activity
             android:name=".AboutActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MatchActivity"></activity>
+        <activity
+            android:name=".MatchActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
