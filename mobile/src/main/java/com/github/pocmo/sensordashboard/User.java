@@ -9,16 +9,18 @@ public class User implements Serializable{
     private String username;
     private String email;
     private String isVS;
+    private String betting;
 
     public User() {
         // Default constructor required for calls to DragonSnapshot.getValue(User.class)
     }
 
-    public User(String username, String email, String isVS) {
+    public User(String username, String email, String isVS, String betting) {
         super();
         this.username = username;
         this.email = email;
         this.isVS = isVS;
+        this.betting = betting;
     }
 
     public String getEmail() {
@@ -41,5 +43,13 @@ public class User implements Serializable{
 
     public void setIsVS(String isVS) {
         this.isVS = isVS;
+    }
+
+    public String getBetting() {
+        return betting;
+    }
+
+    public void setBetting(String betting) {
+        this.betting = betting;
     }
 }
