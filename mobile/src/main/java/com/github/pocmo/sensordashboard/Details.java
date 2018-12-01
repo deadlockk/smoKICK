@@ -208,5 +208,8 @@ public class Details extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        final FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
+        User user = new User(f_user.getUid(), f_user.getEmail(), "false");//User객체에 token, email, isTrue=false로 초기화
+        databaseReference.child("user_info").child(user.getUsername()).setValue(user); // push()를 하지 않기 때문에 중복처리 가능
     }
 }

@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+    ArrayList<User> userList = new ArrayList<>();
+
     void init() {
 
         sharedPreferences = getSharedPreferences("smokingInformation", Activity.MODE_PRIVATE);
@@ -122,8 +124,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Main에 진입 할 때 실행되어 실시간 DB에 유저 정보 등록
         final FirebaseUser f_user = FirebaseAuth.getInstance().getCurrentUser();
-        User user = new User(f_user.getUid(), f_user.getEmail(), "false");//user_info에 세가지만 넣음
-        databaseReference.child("user_info").child(user.getUsername()).setValue(user); // push()를 하지 않기 때문에 중복처리 가능
+        databaseReference.child("user_info").child(f_user.getUid()).child("username").setValue(f_user.getUid()); // userList를 가져오기 위해 username만 업데이트
+
+        ValueEventListener userListener = new ValueEventListener() { // User디비 Callback메소드
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    userList.add(snapshot.getValue(User.class)); // 전체 User정보를 ArrayList에 저장
+                    Log.e("제발5", "진입");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        databaseReference.child("user_info").addValueEventListener(userListener);
 
         init();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -252,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent=new Intent(this,CommuniActivity.class);
         } else if (id == R.id.nav_vs) {
             intent=new Intent(this,VSmode.class);
+            intent.putExtra("userList", userList);
         } else if (id == R.id.nav_about) {
             intent=new Intent(this,AboutActivity.class);
         } else if (id == R.id.nav_logout) {

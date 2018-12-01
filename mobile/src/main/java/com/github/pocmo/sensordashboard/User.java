@@ -1,9 +1,11 @@
 package com.github.pocmo.sensordashboard;
 
+import java.io.Serializable;
+
 /**
  * author AHJ
  */
-public class User {
+public class User implements Serializable{
     private String username;
     private String email;
     private String isVS;
@@ -13,6 +15,7 @@ public class User {
     }
 
     public User(String username, String email, String isVS) {
+        super();
         this.username = username;
         this.email = email;
         this.isVS = isVS;
