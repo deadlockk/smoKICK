@@ -26,5 +26,9 @@ public class MatchActivity extends AppCompatActivity {
         TextView myID = (TextView)findViewById(R.id.myID);
         myID.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0]);
 
+        String betContents = vsmode.betContents.getText().toString();
+        TextView contents = (TextView)findViewById(R.id.contents);
+        contents.setText(betContents);
+
     }
 }

@@ -34,7 +34,7 @@ public class VSmode extends AppCompatActivity {
     private String myTokenID;
     private String myEmail;
     static EditText searchEmail;
-    private EditText betContents;
+    static EditText betContents;
     private Button btn;
     private DatabaseReference mDatabase;
     ArrayList<User> userArrayList = new ArrayList<>();
