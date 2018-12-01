@@ -59,10 +59,14 @@ public class VSmode extends AppCompatActivity {
         Iterator<User> userIterator = userArrayList.iterator();
         while (userIterator.hasNext()) {
             User tempUser = userIterator.next();
+            Log.e("제발1", tempUser.getIsVS() + " / " + myTokenID);
             if(tempUser.getIsVS().equals(myTokenID)) {
                 Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
+                intent.putExtra("userList", userArrayList);
+                intent.putExtra("betContents", "null");
                 startActivity(intent);
                 finish();
+                break;
             }
             Log.e("제발4", tempUser.getEmail() + " / " + tempUser.getIsVS());
         }
@@ -76,8 +80,12 @@ public class VSmode extends AppCompatActivity {
                     if ((searchEmail.getText().toString()).equals(tempUser.getEmail())) {
                         Log.e("제발", searchEmail.getText() + "이메일이 있습니다");
                         mDatabase.child("user_info").child(myTokenID).child("isVS").setValue(tempUser.getUsername());
+                        mDatabase.child("user_info").child(myTokenID).child("betting").setValue(betContents.getText().toString());
                         mDatabase.child("user_info").child(tempUser.getUsername()).child("isVS").setValue(myTokenID);
+                        mDatabase.child("user_info").child(tempUser.getUsername()).child("betting").setValue(betContents.getText().toString());
                         Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
+                        intent.putExtra("betContents", betContents.getText().toString());
+                        intent.putExtra("userList", userArrayList);
                         startActivity(intent);
                         finish();
                         break;
