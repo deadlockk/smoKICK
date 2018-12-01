@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,7 +39,6 @@ public class VSmode extends AppCompatActivity {
     private Button btn;
     private DatabaseReference mDatabase;
     ArrayList<User> userArrayList = new ArrayList<>();
-    ArrayList<Match> matchArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,50 +55,16 @@ public class VSmode extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        ValueEventListener userListener = new ValueEventListener() { // User디비 Callback메소드
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    userArrayList.add(snapshot.getValue(User.class)); // 전체 User정보를 ArrayList에 저장
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        mDatabase.child("user_info").addValueEventListener(userListener);
-
-        ValueEventListener matchListener = new ValueEventListener() { // match 정보 콜백
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren())
-                matchArrayList.add(snapshot.getValue(Match.class)); // 매칭 정보를 ArrayList에 저장
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        mDatabase.child("match").addValueEventListener(matchListener);
-
-
-        Iterator<Match> checkMatch = matchArrayList.iterator();
-        while (checkMatch.hasNext()) {
-            Match m = checkMatch.next();
-            StringTokenizer st = new StringTokenizer(m.getId(), ",");
-            if (st.nextToken().equals(myTokenID) || st.nextToken().equals(myTokenID)) {
-                // VS모드 진행중 액티비티 startActivity();
-                Log.e("제발3", "진입입");
-                Intent intent = new Intent(this, MatchActivity.class);
+        userArrayList = (ArrayList<User>)getIntent().getSerializableExtra("userList");
+        Iterator<User> userIterator = userArrayList.iterator();
+        while (userIterator.hasNext()) {
+            User tempUser = userIterator.next();
+            if(tempUser.getIsVS().equals(myTokenID)) {
+                Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
                 startActivity(intent);
                 finish();
             }
-            else { // if "false", then
-
-            }
+            Log.e("제발4", tempUser.getEmail() + " / " + tempUser.getIsVS());
         }
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -109,17 +75,15 @@ public class VSmode extends AppCompatActivity {
                     User tempUser = checkEmail.next();
                     if ((searchEmail.getText().toString()).equals(tempUser.getEmail())) {
                         Log.e("제발", searchEmail.getText() + "이메일이 있습니다");
-                        Match m = new Match(betContents.getText().toString(), myTokenID + "," + tempUser.getUsername());
-                        mDatabase.child("match").child(myTokenID + "," + tempUser.getUsername()).setValue(m);
+                        mDatabase.child("user_info").child(myTokenID).child("isVS").setValue(tempUser.getUsername());
+                        mDatabase.child("user_info").child(tempUser.getUsername()).child("isVS").setValue(myTokenID);
                         Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
                         startActivity(intent);
                         finish();
                         break;
                     }
-                    else {
-                    }
                 }
-                // 유효한 이메일 검색이 아닐 때
+                Toast.makeText(getApplicationContext(), "Please, enter the available e-mail",Toast.LENGTH_LONG).show();// 유효한 이메일 검색이 아닐 때
             }
         });
     }
