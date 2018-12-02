@@ -1,9 +1,11 @@
 package com.github.pocmo.sensordashboard;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,45 +27,18 @@ public class MatchActivity extends AppCompatActivity {
     private String betContents;
     private String yourEmail;
     private String myEmail;
-    Callback callback;
+
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match);
-        loadData("user_info", callback);
+
     }
-
-    public interface Callback{
-        void success(String data);
-        void fail(String errorMessage);
-    }
-
-    private DatabaseReference mDatabase= null;
-
-    public void loadData(String path, final Callback callback){
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        StringTokenizer token= new StringTokenizer(path, "/", false);
-        while(token.hasMoreTokens()){
-            mDatabase= mDatabase.child(token.nextToken());
-        }
-
-        // Read from the database
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                callback.success(dataSnapshot.getValue().toString());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                callback.fail(error.getMessage());
-            }
-        });
-    }
-
 
 
     @Override
@@ -83,15 +58,30 @@ public class MatchActivity extends AppCompatActivity {
         String yourUid = "";
         Iterator<User> userIterator = userArrayList.iterator();
         while (userIterator.hasNext()) {
-            User tempUser = userIterator.next();
+            final User tempUser = userIterator.next();
             if (tempUser.getUsername().equals(user.getUid())) {
                 if (betContents.equals("null")) {
                     betContents = tempUser.getBetting();
 
                 }
+                ValueEventListener userListener = new ValueEventListener() { // User디비 Callback메소드
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+
+                            Log.e("제발000", tempUser.getEmail() + snapshot.child(tempUser.getUsername()).getValue() + tempUser.getBetting() + tempUser.getUsername());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                };
+                databaseReference.child("user_info").addValueEventListener(userListener);
+
                 yourUid = tempUser.getIsVS();
 
-                Log.e("제발000", tempUser.getEmail() + tempUser.getIsVS() + tempUser.getBetting() + tempUser.getUsername());
 
                 myEmail = tempUser.getEmail();
                 break;
@@ -109,9 +99,13 @@ public class MatchActivity extends AppCompatActivity {
             }
         }
 
+        VSmode vs = new VSmode();
         TextView yourID = (TextView) findViewById(R.id.yourID);
-//        yourID.setText(yourEmail.split("@")[0]);
-
+if(yourEmail != null)
+        yourID.setText(yourEmail.split("@")[0]);
+else {
+    yourID.setText("smoKICK");
+}
         TextView myID = (TextView) findViewById(R.id.myID);
         myID.setText(myEmail.split("@")[0]);
         TextView contents = (TextView) findViewById(R.id.contents);
