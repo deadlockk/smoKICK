@@ -101,11 +101,11 @@ public class MatchActivity extends AppCompatActivity {
 
         VSmode vs = new VSmode();
         TextView yourID = (TextView) findViewById(R.id.yourID);
-if(yourEmail != null)//matching이후 두번째 진입 시 부터
-        yourID.setText(yourEmail.split("@")[0]);
-else {//처음 matching 시
-    yourID.setText("smoKICK");
-}
+        if(yourEmail != null)//matching이후 두번째 진입 시 부터
+            yourID.setText(yourEmail.split("@")[0]);
+        else {//처음 matching 시
+            yourID.setText("smoKICK");
+        } 
         TextView myID = (TextView) findViewById(R.id.myID);
         myID.setText(myEmail.split("@")[0]);
         TextView contents = (TextView) findViewById(R.id.contents);
