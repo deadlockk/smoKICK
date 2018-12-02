@@ -40,7 +40,7 @@ import java.util.StringTokenizer;
 public class VSmode extends AppCompatActivity {
     private String myTokenID;
     private String myEmail;
-    static EditText searchEmail;
+    public static EditText searchEmail;
     static EditText betContents;
     private Button btn;
     private DatabaseReference mDatabase;
@@ -105,7 +105,8 @@ public class VSmode extends AppCompatActivity {
                         Handler timer = new Handler(); //Handler 생성
                         timer.postDelayed(new Runnable() { //2초후 쓰레드를 생성하는 postDelayed 메소드
                             public void run() {
-                                Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
+
+                                final Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
                                 intent.putExtra("betContents", betContents.getText().toString());
                                 intent.putExtra("userList", userArrayList);
                                 startActivity(intent); //다음 액티비티 이동
@@ -113,7 +114,6 @@ public class VSmode extends AppCompatActivity {
                                 showProgress(false);
                             }
                         }, 2000); //2000은 2초를 의미한다.
-
                     }
                 }
                 if(a==0)
