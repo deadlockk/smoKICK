@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Gender:"
+        android:text="Handedness:"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         android:textSize="24dp" />
@@ -60,13 +60,13 @@
             android:id="@+id/radioButtonMale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Male" />
+            android:text="Right" />
 
         <RadioButton
             android:id="@+id/radioButtonFemale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Female" />
+            android:text="Left" />
 
     </RadioGroup>
 
