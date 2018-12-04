@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import com.github.pocmo.sensordashboard.R;
 import com.github.pocmo.sensordashboard.models.Post;
+/**
+ * @author: Sangwon
+ */
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
 
