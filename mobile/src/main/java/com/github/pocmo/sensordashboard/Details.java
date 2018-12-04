@@ -36,7 +36,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
 
-/*
+/**
  * @author: Sangwon
  */
 public class Details extends AppCompatActivity {
