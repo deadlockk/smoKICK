@@ -1,7 +1,9 @@
 package com.github.pocmo.sensordashboard.models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
-
+/**
+ * @author: Sangwon
+ */
 // [START comment_class]
 @IgnoreExtraProperties
 public class Comment {
