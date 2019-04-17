@@ -13,10 +13,10 @@ Add following XML namespace inside your XML layout file.
 xmlns:app="http://schemas.android.com/apk/res-auto"
 ```
 
-### ㄴㄴㄴ
+### Detection algorithm
 
 ```gradle
-ddd
+
 ```
 
 
