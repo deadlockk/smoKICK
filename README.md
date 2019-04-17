@@ -4,7 +4,7 @@
 
 A recognition of smoking gesture using smart watch sensors.
 
-
+![Screenshot](./documentation/smokick.png)
 
 ## Usage
 Add following XML namespace inside your XML layout file.
