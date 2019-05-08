@@ -13,12 +13,6 @@ Add following XML namespace inside your XML layout file.
 xmlns:app="http://schemas.android.com/apk/res-auto"
 ```
 
-```gradle
-
-```
-
-
-
 ## Find this library useful?
 Starring makes it easy to find a repository again later. :star:
 
