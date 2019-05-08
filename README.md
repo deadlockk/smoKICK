@@ -4,7 +4,7 @@
 
 A recognition of smoking gesture using smart watch sensors.
 
-![Screenshot](./documentation/smokick.png)
+
 
 ## Usage
 Add following XML namespace inside your XML layout file.
@@ -12,8 +12,6 @@ Add following XML namespace inside your XML layout file.
 ```gradle
 xmlns:app="http://schemas.android.com/apk/res-auto"
 ```
-
-### Detection algorithm
 
 ```gradle
 
