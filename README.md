@@ -18,7 +18,7 @@ Starring makes it easy to find a repository again later. :star:
 
 # License
 ```xml
-Copyright 2018 Kang-woo, Sang-won, Hyung-joo
+Copyright 2018 Kang-woo, Sang-won, Hyung-ju
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
